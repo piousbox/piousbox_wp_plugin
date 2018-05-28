@@ -1,4 +1,7 @@
 
+# About
+Let's write a plugin to keep all shortcodes in one place, for webdevzine.com
+
 # Develop
 ## REPL
   php -a
