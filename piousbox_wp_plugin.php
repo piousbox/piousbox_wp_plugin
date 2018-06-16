@@ -21,18 +21,18 @@ function category_widget_shortcode( $raw_attrs ) {
   $attrs = shortcode_atts( array(
     'slug' => 'tools'
   ), $raw_attrs );
-
+  $cat = get_category_by_slug( $attrs['slug'] );
+  # var_dump( $cat );
   $args = array(
     'numberposts' => 1,
     'offset' => $attrs['idx'],
-    'category' => $attrs['slug'],
+    'category' => $cat->term_id,
     'orderby' => 'post_date',
     'order' => 'DESC',
     'post_type' => 'post',
     'post_status' => 'publish',
     'suppress_filters' => true
   );
-  $cat = get_category_by_slug( $attrs['slug'] ); 
 
   $recent_posts = wp_get_recent_posts( $args, ARRAY_A );
   $post = $recent_posts[0];

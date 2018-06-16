@@ -1,1 +1,13 @@
 
+
+.CategoryWidget h1 {
+  background: #efefef;
+  border-bottom: 5px solid #cecece;
+  text-align: center;
+}
+
+.CategoryWidget h2 {
+  margin: 0;
+  padding: 0;
+}
+
