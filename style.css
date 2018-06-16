@@ -1,4 +1,7 @@
 
+.CategoryWidget {
+  min-height: 300px;
+}
 
 .CategoryWidget h1 {
   background: #efefef;
