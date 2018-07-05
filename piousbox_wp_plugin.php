@@ -92,4 +92,50 @@ EOT;
 }
 add_shortcode( 'feature', 'feature_shortcode' );
 
+/**
+ * Recent Posts
+ */
+function recent_posts_shortcode( $raw_attrs ) {
+  $attrs = shortcode_atts( array(
+    'n_posts' => 5
+  ), $raw_attrs );
+
+  $args = array(
+    'numberposts' => $attrs['n_posts'],
+    'orderby'     => 'post_date',
+    'order'       => 'DESC',
+    'post_type'   => 'post',
+    'post_status'      => 'publish',
+  );
+  $recent_posts = wp_get_recent_posts( $args, ARRAY_A );
+  $postsRendered = '';
+  foreach ($recent_posts as &$post) {
+
+    // var_dump($post);
+
+    $subtitle = new WP_Subtitle( $post['ID'] );
+    $author = get_the_author_meta('display_name', $post->author);
+    $s = $subtitle->get_subtitle();
+    $date = substr($post['post_date'], 0, 10);
+    $tmp = <<<EOT
+    <div class="item" >
+      <h2><a href="/index.php?p={$post['ID']}">{$post['post_title']}</a></h2>
+      <div class="meta" >By $author on {$date}</div>
+      <div class="description"><a href="/index.php?p={$post['ID']}">$s</a></div>
+      <div class="divider"></div>
+    </div>
+EOT;
+    $postsRendered = "$postsRendered$tmp";
+  }
+
+  $out = <<<EOT
+    <div class="RecentPosts">
+      <div class="header" >Recent Posts</div>
+      {$postsRendered}
+    </div>
+EOT;
+
+  return $out;
+}
+add_shortcode( 'recent_posts', 'recent_posts_shortcode' );
 

@@ -14,3 +14,24 @@
   padding: 0;
 }
 
+.RecentPosts .header {
+  border-bottom: 1px solid gray;
+  margin: 1rem 0;
+  text-align: right;
+}
+.RecentPosts h2 {
+  margin: 0;
+}
+
+.RecentPosts .item {
+  margin-bottom: 1.6rem;
+}
+.RecentPosts .item .divider-trash {
+  border: 1px solid gray;
+  margin: 1rem 0;
+  width: 100%;
+  height: 2px;
+}
+.RecentPosts .item:last-child .divider{
+  border: 0;
+}
