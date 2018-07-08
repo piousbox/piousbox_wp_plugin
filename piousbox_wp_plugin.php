@@ -206,3 +206,58 @@ EOT;
 }
 add_shortcode( 'category_video_widget', 'category_video_widget_shortcode' );
 
+
+/**
+ * CategoryFull Widget
+ * 20180707 _vp_
+ */
+function category_full_widget_shortcode( $raw_attrs ) {
+  $attrs = shortcode_atts( array(
+    'slug'    => 'diary',
+    'n_posts' => 1
+  ), $raw_attrs );
+  $cat = get_category_by_slug( $attrs['slug'] );
+  $args = array(
+    'numberposts'      => $attrs['n_posts'],
+    'offset'           => $attrs['idx'],
+    'category'         => $cat->term_id,
+    'orderby'          => 'post_date',
+    'order'            => 'DESC',
+    'post_type'        => 'post',
+    'post_status'      => 'publish',
+    'suppress_filters' => true
+  );
+
+  $recent_posts = wp_get_recent_posts( $args, ARRAY_A );
+      
+  $postsRendered = '';
+  foreach ($recent_posts as &$post) {
+    $author   = get_the_author_meta('display_name', $post->author);
+    $date     = substr($post['post_date'], 0, 10);
+    $subtitle = new WP_Subtitle( $post['ID'] );
+    $s        = $subtitle->get_subtitle();
+    $content  = $post['post_content'];
+    
+    $tmp = <<<EOT
+    <div>
+      <h2><a href="/index.php?p={$post['ID']}">{$post['post_title']}</a></h2>
+      <div class="meta" >By $author on {$date}</div>
+      <div class="description">
+        <a href="/index.php?p={$post['ID']}">$content</a><br />
+      </div>
+    </div>
+EOT;
+    $postsRendered = "$postsRendered$tmp<br /><br />";
+  }
+
+  $out = <<<EOT
+    <div class="CategoryVideoWidget">
+      <h1 class="header">{$cat->name}</h1>
+      {$postsRendered}
+    </div>
+EOT;
+
+  return $out;
+}
+add_shortcode( 'category_full_widget', 'category_full_widget_shortcode' );
+
