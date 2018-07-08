@@ -1,4 +1,7 @@
 
+/**
+ * category widget 
+ */
 .CategoryWidget {
   min-height: 300px;
 }
@@ -14,6 +17,43 @@
   padding: 0;
 }
 
+
+/**
+ * Category Video Widget
+ */
+.CategoryVideoWidget h1 {
+  border-bottom: 1px solid gray;
+  margin: 1rem 0;
+  text-align: right;
+}
+.CategoryVideoWidget h2 {
+  margin-bottom: 0;
+}
+.CategoryVideoWidget .description {
+  padding-bottom: 2rem;
+  border-bottom: 2px solid gray;
+}
+.CategoryVideoWidget .description .thumb {
+  text-align: center;
+}
+.CategoryVideoWidget ul.actions {
+  list-style: none;
+  text-align: center;
+  margin-top: 0rem;
+}
+.CategoryVideoWidget ul.actions li {
+  border: 1px solid gray;
+  display: inline;
+  padding: 1rem;
+}
+.CategoryVideoWidget ul.actions li a {
+  text-decoration: underline;
+  text-align: center;
+}
+
+/**
+ * recent posts
+ */
 .RecentPosts .header {
   border-bottom: 1px solid gray;
   margin: 1rem 0;
