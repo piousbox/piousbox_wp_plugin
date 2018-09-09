@@ -13,6 +13,48 @@ function foobar_func( $atts ){
 }
 add_shortcode( 'foobar', 'foobar_func' );
 
+/**
+ * [catlist parent="technique" parent_id=1||null ]
+ */
+function catlist_func( $raw_attrs ) {
+  $attrs = shortcode_atts( array(
+    'parent' => 'technique',
+    'parent_id' => null
+  ), $raw_attrs );
+
+  if (!$attrs['parent_id']) {
+    $this_parent = get_category_by_slug($attrs['parent']);
+    $attrs['parent_id'] = $this_parent->term_id;
+  }
+
+  $args = array(
+    'child_of'            => $attrs['parent_id'],
+    'hierarchical'        => true,
+    'order'               => 'ASC',
+    'orderby'             => 'name',
+    'show_count'          => 1,
+    'use_desc_for_title'  => 1,
+  );
+  // $raw_cats = get_categories( $args );
+  echo "<ul>";
+  echo wp_list_categories( $args );
+  echo "</ul>";
+
+  /*
+  // in-memory shuffling of the categories
+  $cats = array();
+  foreach($cats as &$cat) { }
+  var_dump( $cats );
+
+  $r_cats = ""; // r for render
+  foreach ($cats as &$cat) {
+    $r_cats = $r_cats . "<li>".$cat->name."</li>";
+  }
+  $rendered = "<ul>".$r_cats."</ul>";
+  return $rendered;
+   */
+}
+add_shortcode( 'catlist', 'catlist_func' );
 
 /*
  * [category_widget slug='interviewing']
