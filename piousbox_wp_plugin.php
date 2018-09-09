@@ -61,13 +61,13 @@ add_shortcode( 'catlist', 'catlist_func' );
  */
 function category_widget_shortcode( $raw_attrs ) {
   $attrs = shortcode_atts( array(
-    'slug'    => 'tools',
-    'n_posts' => 1
+    'slug'       => 'tools',
+    'n_posts'    => 1,
+    'show_title' => "yes" 
   ), $raw_attrs );
   $cat = get_category_by_slug( $attrs['slug'] );
   # var_dump( $cat );
   $args = array(
-    'numberposts'      => $attrs['n_posts'],
     'offset'           => $attrs['idx'],
     'category'         => $cat->term_id,
     'orderby'          => 'post_date',
@@ -76,6 +76,10 @@ function category_widget_shortcode( $raw_attrs ) {
     'post_status'      => 'publish',
     'suppress_filters' => true
   );
+
+  if ($attrs['n_posts'] != '0') {
+    $args['numberposts'] = $attrs['n_posts'];
+  }
 
   $recent_posts = wp_get_recent_posts( $args, ARRAY_A );
 
@@ -92,8 +96,11 @@ EOT;
     $postsRendered = "$postsRendered$tmp<br /><br />";
   }
 
+  $title = $attrs['show_title'] == "yes" ? "<h1 class='header'>{$cat->name}</h1>" : "";
+
+
   $out = <<<EOT
-    <div class="CategoryWidget"><h1 class="header">{$cat->name}</h1>{$postsRendered}</div>
+    <div class="CategoryWidget">{$title}{$postsRendered}</div>
 EOT;
 
   return $out;
