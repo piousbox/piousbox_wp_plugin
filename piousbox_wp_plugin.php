@@ -66,9 +66,9 @@ function category_widget_shortcode( $raw_attrs ) {
     'show_title' => "yes" 
   ), $raw_attrs );
   $cat = get_category_by_slug( $attrs['slug'] );
-  # var_dump( $cat );
+  # var_dump( $attrs );
   $args = array(
-    'offset'           => $attrs['idx'],
+    # 'offset'           => $attrs['idx'],
     'category'         => $cat->term_id,
     'orderby'          => 'post_date',
     'order'            => 'DESC',
@@ -268,7 +268,7 @@ function category_full_widget_shortcode( $raw_attrs ) {
   $cat = get_category_by_slug( $attrs['slug'] );
   $args = array(
     'numberposts'      => $attrs['n_posts'],
-    'offset'           => $attrs['idx'],
+    # 'offset'           => $attrs['idx'],
     'category'         => $cat->term_id,
     'orderby'          => 'post_date',
     'order'            => 'DESC',
