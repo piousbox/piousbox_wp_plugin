@@ -56,6 +56,85 @@ function catlist_func( $raw_attrs ) {
 }
 add_shortcode( 'catlist', 'catlist_func' );
 
+/**
+ * 20200217 
+ * [scrum_widget]
+ */
+function category_expanded_widget_shortcode( $raw_attrs ) {
+  $attrs = shortcode_atts( array(
+    'slug'       => 'scrum',
+    'n_posts'    => 1,
+    'show_title' => "yes" 
+  ), $raw_attrs );
+  $cat = get_category_by_slug( $attrs['slug'] );
+  # var_dump( $attrs );
+  $args = array(
+    # 'offset'           => $attrs['idx'],
+    'category'         => $cat->term_id,
+    'orderby'          => 'post_date',
+    'order'            => 'DESC',
+    # 'post_type'        => 'post',
+    'post_status'      => 'publish',
+    'numberposts'      => $attrs['n_posts'],
+    'suppress_filters' => true
+  );
+  if ($attrs['n_posts'] != '0' && $attrs['n_posts'] != 0) {
+    $args['numberposts'] = $attrs['n_posts'];
+  }
+  $recent_posts = wp_get_recent_posts( $args, ARRAY_A );
+  $postsRendered = '';
+  foreach ($recent_posts as &$post) {
+    $author   = get_the_author_meta('display_name', $post->author);
+    $date     = substr($post['post_date'], 0, 10);
+    $subtitle = new WP_Subtitle( $post['ID'] );
+    $s        = $subtitle->get_subtitle();
+    $content  = $post['post_content'];
+
+    $video    = trim( strtok($content, "\n") );
+    $pattern = '/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/ ]{11})/i';
+    preg_match($pattern, $video, $matches);
+    $content = <<<EOT
+    <iframe width="420" height="315" src="https://www.youtube.com/embed/{$matches[1]}"></iframe>
+EOT;
+
+    // $title = $attrs['show_title'] == "yes" ? "<h1 class='header'>{$cat->name}</h1>" : "";
+    $title =<<<EOT
+    <div>
+      <h2><a href="/index.php?p={$post['ID']}">{$post['post_title']}</a></h2>
+    </div>
+EOT;
+    //$title = '';
+
+    $meta = "<div class='meta' >By $author on {$date}</div>";
+
+    $tmp = <<<EOT
+    <div>
+      $title
+      $meta
+      <div class="description">
+        $content
+      </div>
+    </div>
+EOT;
+    $postsRendered = "$postsRendered$tmp<br /><br />";
+  }
+  
+  $readMore = '<div style="text-align: center"><button>Read More</button></div>';
+  $readMore = '';
+
+  $out = <<<EOT
+    <div class="CategoryWidget" >
+      <h1 class="header" >Scrum</h1>
+        $postsRendered
+        $readMore
+    </div>
+EOT;
+  return $out;
+}
+add_shortcode('scrum_widget', 'category_expanded_widget_shortcode' );
+
+
+
 /*
  * [category_widget slug='interviewing']
  */
@@ -85,11 +164,15 @@ function category_widget_shortcode( $raw_attrs ) {
 
   $postsRendered = '';
   foreach ($recent_posts as &$post) {
+    $author   = get_the_author_meta('display_name', $post->author);
+    $date     = substr($post['post_date'], 0, 10);
     $subtitle = new WP_Subtitle( $post['ID'] );
     $s = $subtitle->get_subtitle();
+    $meta = "<div class='meta' >By $author on {$date}</div>";
     $tmp = <<<EOT
     <div>
       <h2><a href="/index.php?p={$post['ID']}">{$post['post_title']}</a></h2>
+      $meta
       <div class="description"><a href="/index.php?p={$post['ID']}">$s</a></div>
     </div>
 EOT;
@@ -97,7 +180,7 @@ EOT;
   }
 
   $title = $attrs['show_title'] == "yes" ? "<h1 class='header'>{$cat->name}</h1>" : "";
-
+  
 
   $out = <<<EOT
     <div class="CategoryWidget">{$title}{$postsRendered}</div>
