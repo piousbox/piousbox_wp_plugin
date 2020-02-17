@@ -64,7 +64,8 @@ function category_expanded_widget_shortcode( $raw_attrs ) {
   $attrs = shortcode_atts( array(
     'slug'       => 'scrum',
     'n_posts'    => 1,
-    'show_title' => "yes" 
+    'show_title' => "yes",
+    'show_meta'  => 'yes',
   ), $raw_attrs );
   $cat = get_category_by_slug( $attrs['slug'] );
   # var_dump( $attrs );
@@ -73,7 +74,7 @@ function category_expanded_widget_shortcode( $raw_attrs ) {
     'category'         => $cat->term_id,
     'orderby'          => 'post_date',
     'order'            => 'DESC',
-    # 'post_type'        => 'post',
+    // 'post_type'        => 'post',
     'post_status'      => 'publish',
     'numberposts'      => $attrs['n_posts'],
     'suppress_filters' => true
@@ -84,28 +85,31 @@ function category_expanded_widget_shortcode( $raw_attrs ) {
   $recent_posts = wp_get_recent_posts( $args, ARRAY_A );
   $postsRendered = '';
   foreach ($recent_posts as &$post) {
+    $format   = get_post_format($post['ID']);
     $author   = get_the_author_meta('display_name', $post->author);
     $date     = substr($post['post_date'], 0, 10);
     $subtitle = new WP_Subtitle( $post['ID'] );
     $s        = $subtitle->get_subtitle();
     $content  = $post['post_content'];
 
-    $video    = trim( strtok($content, "\n") );
-    $pattern = '/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/ ]{11})/i';
-    preg_match($pattern, $video, $matches);
-    $content = <<<EOT
-    <iframe width="420" height="315" src="https://www.youtube.com/embed/{$matches[1]}"></iframe>
+    if ('video' == $format) {
+      $video    = trim( strtok($content, "\n") );
+      $pattern = '/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/ ]{11})/i';
+      preg_match($pattern, $video, $matches);
+      $content = <<<EOT
+      <iframe width="420" height="315" src="https://www.youtube.com/embed/{$matches[1]}"></iframe>
 EOT;
+    }
 
-    // $title = $attrs['show_title'] == "yes" ? "<h1 class='header'>{$cat->name}</h1>" : "";
     $title =<<<EOT
     <div>
       <h2><a href="/index.php?p={$post['ID']}">{$post['post_title']}</a></h2>
     </div>
 EOT;
-    //$title = '';
+    $title = $attrs['show_title'] == "yes" ? $title : '';
 
     $meta = "<div class='meta' >By $author on {$date}</div>";
+    $meta = $attrs['show_meta'] == "yes" ? $meta : '';
 
     $tmp = <<<EOT
     <div>
