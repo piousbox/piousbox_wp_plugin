@@ -152,7 +152,8 @@ function category_widget_shortcode( $raw_attrs ) {
   # var_dump( $attrs );
   $args = array(
     # 'offset'           => $attrs['idx'],
-    'category'         => $cat->term_id,
+    # 'category'         => $cat->term_id, # and sub-cats
+    'category__in' => [ $cat->term_id ], # only the parent cat
     'orderby'          => 'post_date',
     'order'            => 'DESC',
     'post_type'        => 'post',
