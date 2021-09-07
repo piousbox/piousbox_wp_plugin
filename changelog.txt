@@ -4,3 +4,4 @@
 0.0.1 - let's make elementor shortcodes for bjjc here.
         a page for each category, displays only the titles.
 0.0.2 - 20200217 - scrum_widget
+        20210907 - category h1 has a link

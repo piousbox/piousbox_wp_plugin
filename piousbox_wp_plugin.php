@@ -183,8 +183,8 @@ function category_widget_shortcode( $raw_attrs ) {
 EOT;
     $postsRendered = "$postsRendered$tmp<br /><br />";
   }
-
-  $title = $attrs['show_title'] == "yes" ? "<h1 class='header'>{$cat->name}</h1>" : "";
+  $cat_link = get_category_link( $cat->term_id );
+  $title = $attrs['show_title'] == "yes" ? "<h1 class='header'><a href='${cat_link}'><u>{$cat->name}</u></a></h1>" : "";
   
 
   $out = <<<EOT
