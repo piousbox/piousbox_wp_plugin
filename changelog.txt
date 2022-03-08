@@ -5,3 +5,5 @@
         a page for each category, displays only the titles.
 0.0.2 - 20200217 - scrum_widget
         20210907 - category h1 has a link
+0.1.0 - 2020-03-07 - it's been a while.
+                     adding tests

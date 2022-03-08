@@ -10,6 +10,8 @@ Let's write a plugin to keep all shortcodes in one place, for webdevzine.com
  php > print_r(get_user_by('id', 1));
 </pre>
 
+ wp scaffold plugin-tests sample-plugin
+
 # Deploy
 Take a look at what's in the scripts/ folder.
 
