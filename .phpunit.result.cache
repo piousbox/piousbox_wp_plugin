@@ -1,1 +1,1 @@
-{"version":1,"defects":[],"times":{"SampleTest::test_sample":0.002}}
+{"version":1,"defects":{"PiousboxWpPluginTest::test_foobar_func":4},"times":{"SampleTest::test_sample":0.002,"PiousboxWpPluginTest::test_sample":0.001,"PiousboxWpPluginTest::test_foobar_func":0.001}}

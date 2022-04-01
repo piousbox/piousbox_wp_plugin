@@ -1,20 +1,25 @@
 <?php
+
+include '../piousbox_wp_plugin.php';
 /**
- * Class SampleTest
+ * Class PiousboxWpPluginTest
  *
  * @package Piousbox_wp_plugin
  */
 
-/**
- * Sample test case.
- */
-class SampleTest extends WP_UnitTestCase {
+class PiousboxWpPluginTest extends WP_UnitTestCase {
 
-	/**
-	 * A single example test.
-	 */
 	public function test_sample() {
 		// Replace this with some actual testing code.
 		$this->assertTrue( true );
 	}
+
+	public function test_foobar_func() {
+		$result = foobar_func();
+		$expected = "foo and bar";
+		$this->assertEquals( $result, $expected );
+	}
+
 }
+
+

@@ -2,13 +2,16 @@
 /**
  * Plugin Name: Piousbox Wordpress Plugin
  */
-wp_register_style('myCSS', plugins_url('piousbox_wp_plugin/style.css'));
-wp_enqueue_style( 'myCSS');
+function my_scripts() {
+  wp_register_style('myCSS', plugins_url('piousbox_wp_plugin/style.css'));
+  wp_enqueue_style( 'myCSS');
+}
+add_action( 'wp_enqueue_scripts', 'my_scripts' );
 
 /*
  * [foobar]
  */
-function foobar_func( $atts ){
+function foobar_func( $atts = [] ){
   return "foo and bar";
 }
 add_shortcode( 'foobar', 'foobar_func' );
@@ -57,7 +60,7 @@ function catlist_func( $raw_attrs ) {
 add_shortcode( 'catlist', 'catlist_func' );
 
 /**
- * 20200217 
+ * 20200217
  * [scrum_widget]
  */
 function category_expanded_widget_shortcode( $raw_attrs ) {
@@ -122,7 +125,7 @@ EOT;
 EOT;
     $postsRendered = "$postsRendered$tmp<br /><br />";
   }
-  
+
   $readMore = '<div style="text-align: center"><button>Read More</button></div>';
   $readMore = '';
 
@@ -146,7 +149,7 @@ function category_widget_shortcode( $raw_attrs ) {
   $attrs = shortcode_atts( array(
     'slug'       => 'tools',
     'n_posts'    => 1,
-    'show_title' => "yes" 
+    'show_title' => "yes"
   ), $raw_attrs );
   $cat = get_category_by_slug( $attrs['slug'] );
   # var_dump( $attrs );
@@ -185,7 +188,7 @@ EOT;
   }
   $cat_link = get_category_link( $cat->term_id );
   $title = $attrs['show_title'] == "yes" ? "<h1 class='header'><a href='${cat_link}'><u>{$cat->name}</u></a></h1>" : "";
-  
+
 
   $out = <<<EOT
     <div class="CategoryWidget">{$title}{$postsRendered}</div>
@@ -298,7 +301,7 @@ function category_video_widget_shortcode( $raw_attrs ) {
   );
 
   $recent_posts = wp_get_recent_posts( $args, ARRAY_A );
-      
+
   $postsRendered = '';
   foreach ($recent_posts as &$post) {
     $author   = get_the_author_meta('display_name', $post->author);
@@ -310,7 +313,7 @@ function category_video_widget_shortcode( $raw_attrs ) {
 
     $pattern = '/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/ ]{11})/i';
     preg_match( $pattern, $video, $matches);
-    
+
     $content = "<div class='thumb'><img src='https://img.youtube.com/vi/{$matches[1]}/0.jpg' alt='' /></div>";
 
     $tmp = <<<EOT
@@ -366,7 +369,7 @@ function category_full_widget_shortcode( $raw_attrs ) {
   );
 
   $recent_posts = wp_get_recent_posts( $args, ARRAY_A );
-      
+
   $postsRendered = '';
   foreach ($recent_posts as &$post) {
     $author   = get_the_author_meta('display_name', $post->author);
@@ -374,7 +377,7 @@ function category_full_widget_shortcode( $raw_attrs ) {
     $subtitle = new WP_Subtitle( $post['ID'] );
     $s        = $subtitle->get_subtitle();
     $content  = $post['post_content'];
-    
+
     $tmp = <<<EOT
     <div>
       <h2><a href="/index.php?p={$post['ID']}">{$post['post_title']}</a></h2>
