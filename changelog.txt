@@ -8,4 +8,5 @@
 0.1.0 - 2020-03-07 - it's been a while.
                      adding tests
 0.2.0 - 2022-04-01 - wiring in tests and CI
+        2022-04-28 - phpunit actually works, lets wire it on do.
 

@@ -1,6 +1,8 @@
 
 *trash
 *.swp
+*-bk
+*\.cache
 
 /output
 vendor
