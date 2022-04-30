@@ -4,9 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "cf2388b53178a10da0a65cbf52330741",
-    "packages": [],
-    "packages-dev": [
+    "content-hash": "62c5669b6a1d658797b5ba6044c2c0a1",
+    "packages": [
         {
             "name": "doctrine/instantiator",
             "version": "1.4.1",
@@ -2104,7 +2103,9 @@
                 "source": "https://github.com/webmozarts/assert/tree/1.10.0"
             },
             "time": "2021-03-09T10:59:23+00:00"
-        },
+        }
+    ],
+    "packages-dev": [
         {
             "name": "yoast/phpunit-polyfills",
             "version": "1.0.3",
@@ -2174,5 +2175,5 @@
     "prefer-lowest": false,
     "platform": [],
     "platform-dev": [],
-    "plugin-api-version": "2.2.0"
+    "plugin-api-version": "2.3.0"
 }

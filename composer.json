@@ -1,5 +1,8 @@
 {
   "require-dev": {
     "yoast/phpunit-polyfills" : "1.0.3"
+  },
+  "require": {
+    "phpunit/phpunit": "^9.5"
   }
 }
