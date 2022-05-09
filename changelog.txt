@@ -5,3 +5,5 @@
         a page for each category, displays only the titles.
 0.0.2 - 20200217 - scrum_widget
         20210907 - category h1 has a link
+        2022-05-09 - just branch re-naming. the old sky+earth theme.
+
