@@ -140,9 +140,10 @@ add_shortcode('scrum_widget', 'category_expanded_widget_shortcode' );
 
 
 
-/*
+/**
  * [category_widget slug='interviewing']
- */
+ * 2022-05-09 _vp_
+**/
 function category_widget_shortcode( $raw_attrs ) {
   $attrs = shortcode_atts( array(
     'slug'       => 'tools',
@@ -150,7 +151,20 @@ function category_widget_shortcode( $raw_attrs ) {
     'show_title' => "yes" 
   ), $raw_attrs );
   $cat = get_category_by_slug( $attrs['slug'] );
-  # var_dump( $attrs );
+  $cat_link = get_category_link( $cat->term_id );
+  
+  $title = '';
+  if ($attrs['show_title'] == "yes") {
+    $title = <<<EOT
+      <div class='header'>
+        <h1>
+          <div class='line-1'></div>
+          <a href='${cat_link}'>{$cat->name}</a>
+        </h1>
+      </div>
+EOT;
+  }
+
   $args = array(
     # 'offset'           => $attrs['idx'],
     # 'category'         => $cat->term_id, # and sub-cats
@@ -170,22 +184,22 @@ function category_widget_shortcode( $raw_attrs ) {
 
   $postsRendered = '';
   foreach ($recent_posts as &$post) {
-    $author   = get_the_author_meta('display_name', $post->author);
-    $date     = substr($post['post_date'], 0, 10);
+
+    // $author   = get_the_author_meta('display_name', $post->author);
+    // $date     = substr($post['post_date'], 0, 10);
+    // $meta = "<div class='meta' >By $author on {$date}</div>";
+
     $subtitle = new WP_Subtitle( $post['ID'] );
     $s = $subtitle->get_subtitle();
-    $meta = "<div class='meta' >By $author on {$date}</div>";
+
     $tmp = <<<EOT
-    <div>
+    <div class='item-outer' >
       <h2><a href="/index.php?p={$post['ID']}">{$post['post_title']}</a></h2>
       <div class="description"><a href="/index.php?p={$post['ID']}">$s</a></div>
     </div>
 EOT;
-    $postsRendered = "$postsRendered$tmp<br /><br />";
+    $postsRendered = "$postsRendered$tmp";
   }
-  $cat_link = get_category_link( $cat->term_id );
-  $title = $attrs['show_title'] == "yes" ? "<h1 class='header'><a href='${cat_link}'><u>{$cat->name}</u></a></h1>" : "";
-  
 
   $out = <<<EOT
     <div class="CategoryWidget">{$title}{$postsRendered}</div>
