@@ -111,10 +111,11 @@ EOT;
     $meta = "<div class='meta' >By $author on {$date}</div>";
     $meta = $attrs['show_meta'] == "yes" ? $meta : '';
 
+    // _vp_ 2022-05-05 $meta would have been displayed just below the title.
+
     $tmp = <<<EOT
     <div>
       $title
-      $meta
       <div class="description">
         $content
       </div>
@@ -177,7 +178,6 @@ function category_widget_shortcode( $raw_attrs ) {
     $tmp = <<<EOT
     <div>
       <h2><a href="/index.php?p={$post['ID']}">{$post['post_title']}</a></h2>
-      $meta
       <div class="description"><a href="/index.php?p={$post['ID']}">$s</a></div>
     </div>
 EOT;
