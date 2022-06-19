@@ -3,12 +3,11 @@
         got category_video_widget non-tdd, let's version bump.
 0.0.1 - let's make elementor shortcodes for bjjc here.
         a page for each category, displays only the titles.
-0.0.2 - 20200217 - scrum_widget
-        20210907 - category h1 has a link
-0.1.0 - 2020-03-07 - it's been a while.
+      - 2020-03-07 - it's been a while.
                      adding tests
 0.2.0 - 2022-04-01 - wiring in tests and CI
         2022-04-28 - phpunit actually works, lets wire it on do.
         2022-05-09 - just branch re-naming. the old sky+earth theme.
-
-
+      - 20200217 - scrum_widget
+        20210907 - category h1 has a link
+0.3.0 - 2022-05-09 - yellow boxes, floating islands

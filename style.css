@@ -1,4 +1,7 @@
 
+
+
+
 /**
  * category widget 
  */
@@ -6,15 +9,60 @@
   min-height: 300px;
 }
 
-.CategoryWidget h1 {
-  background: #efefef;
-  border-bottom: 5px solid #cecece;
-  text-align: center;
+.CategoryWidget .header h1 {
+  /* border-bottom: 5px solid #888888; */
+  border-right: 0.5em solid #ffff52;
+  
+  margin-bottom: 0.5em;
+  padding-right: 0.5em;
+  position: relative;
+  text-align: right;
+  height: 40px;
+  overflow: hidden;
+  z-index: 5;
+}
+.CategoryWidget .header .line-1 {
+  width: 200px;
+  height: 150px;
+  background: #888888;
+  -webkit-transform:
+      /* translateY(-20px)
+      translateX(5px) */
+      rotate(-37deg); 
+  position: absolute;
+  top: -25px;
+  right: -25px;
+  z-index: 1;
+}
+.CategoryWidget .header:after {
+  content: "";
+  background: #888888;
+  position: absolute;
+  top: 35px;
+  right: 0;
+  height: 5px;
+  width: 75%;
+}
+.CategoryWidget .header h1 a {
+  color: #ffff52;
+  text-shadow: 2px 2px #888888;
+  position: relative;
+  z-index: 2;
+
 }
 
 .CategoryWidget h2 {
   margin: 0;
   padding: 0;
+}
+
+.CategoryWidget .item-outer {
+  background: #f5f9b3;
+  border: 2px solid gray;
+  border-radius: 5px;
+  box-shadow: 5px 10px #888888;
+  padding: 0.5em;
+  margin-bottom: 2em;
 }
 
 
