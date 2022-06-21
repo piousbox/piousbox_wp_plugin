@@ -3,6 +3,7 @@
     "yoast/phpunit-polyfills" : "1.0.3"
   },
   "require": {
-    "phpunit/phpunit": "^9.5"
+    "phpunit/phpunit": "^9.5",
+    "cviebrock/eloquent-sluggable": "^9.0"
   }
 }
