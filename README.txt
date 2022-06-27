@@ -27,12 +27,5 @@ A plugin for some shared functionality for piousbox.com
  docker run --mount type=bind,source="$(pwd)",target=/opt/projects/php/piousbox_wp_plugin \
    piousbox_wp_plugin_tester ./vendor/bin/phpunit
 
- docker run --mount type=bind,source="$(pwd)",target=/opt/projects/php/piousbox_wp_plugin piousbox_wp_plugin_tester ls -lah
-
-# Deploy
-Take a look at what's in the scripts/ folder.
-
-Changelog.txt is accurate
-
-
+ docker run --mount type=bind,source="$(pwd)",target=/opt/projects/php/piousbox_wp_plugin piousbox_wp_plugin_tester ./vendor/bin/phpunit
 

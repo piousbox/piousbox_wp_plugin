@@ -1,0 +1,7 @@
+#!/bin/bash
+
+WORKSPACE=/mnt/volume_nyc1_01/jenkins/workspace/piousbox_wp_plugin
+cd $WORKSPACE
+docker build . -t piousbox_wp_plugin_tester
+docker run --mount type=bind,source="$(pwd)",target=/opt/projects/php/piousbox_wp_plugin    piousbox_wp_plugin_tester ./vendor/bin/phpunit
+
