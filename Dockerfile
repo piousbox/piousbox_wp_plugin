@@ -40,10 +40,5 @@ RUN touch /root/.bashrc && \
 WORKDIR /opt/projects/php/piousbox_wp_plugin
 ADD . /opt/projects/php/piousbox_wp_plugin
 
-RUN curl https://getcomposer.org/installer > composer-setup.php && \
-  php composer-setup.php --install-dir=bin --filename=composer && \
-  php ./bin/composer install && \
-  ./bin/install-wp-tests.sh piousbox_wp_plugin_test root test1234 host.docker.internal
-
 # CMD apachectl -D FOREGROUND
 
