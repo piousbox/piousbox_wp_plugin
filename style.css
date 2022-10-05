@@ -3,7 +3,7 @@
 
 
 /**
- * category widget 
+ * category widget
  */
 .CategoryWidget {
   min-height: 300px;
@@ -12,7 +12,7 @@
 .CategoryWidget .header h1 {
   /* border-bottom: 5px solid #888888; */
   border-right: 0.5em solid #ffff52;
-  
+
   margin-bottom: 0.5em;
   padding-right: 0.5em;
   position: relative;
@@ -28,7 +28,7 @@
   -webkit-transform:
       /* translateY(-20px)
       translateX(5px) */
-      rotate(-37deg); 
+      rotate(-37deg);
   position: absolute;
   top: -25px;
   right: -25px;
@@ -57,7 +57,9 @@
 }
 
 .CategoryWidget .item-outer {
-  background: #f5f9b3;
+  /* background: #f5f9b3; */
+  background: white;
+
   border: 2px solid gray;
   border-radius: 5px;
   box-shadow: 5px 10px #888888;
