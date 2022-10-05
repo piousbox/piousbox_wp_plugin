@@ -1,0 +1,9 @@
+#!/bin/bash
+
+curl https://getcomposer.org/installer > composer-setup.php && \
+  php composer-setup.php --install-dir=bin --filename=composer && \
+  php ./bin/composer install && \
+  DB_NAME=$1 DB_USER=$2 DB_PASS=$3 DB_HOST=$4 ./bin/install-wp-tests.sh
+
+./vendor/bin/phpunit
+

@@ -1,14 +1,14 @@
 #!/usr/bin/env bash
 
-if [ $# -lt 3 ]; then
-	echo "usage: $0 <db-name> <db-user> <db-pass> [db-host] [wp-version] [skip-database-creation]"
-	exit 1
-fi
+# if [ $# -lt 3 ]; then
+# 	echo "usage: $0 <db-name> <db-user> <db-pass> [db-host] [wp-version] [skip-database-creation]"
+# 	exit 1
+# fi
 
-DB_NAME=$1
-DB_USER=$2
-DB_PASS=$3
-DB_HOST=${4-localhost}
+# DB_NAME=$1
+# DB_USER=$2
+# DB_PASS=$3
+# DB_HOST=${4-localhost}
 WP_VERSION=${5-latest}
 SKIP_DB_CREATE=${6-false}
 
@@ -126,17 +126,23 @@ install_test_suite() {
 
 }
 
+# recreate_db() {
+# 	shopt -s nocasematch
+# 	if [[ $1 =~ ^(y|yes)$ ]]
+# 	then
+# 		mysqladmin drop $DB_NAME -f --user="$DB_USER" --password="$DB_PASS"$EXTRA
+# 		create_db
+# 		echo "Recreated the database ($DB_NAME)."
+# 	else
+# 		echo "Leaving the existing database ($DB_NAME) in place."
+# 	fi
+# 	shopt -u nocasematch
+# }
+
 recreate_db() {
-	shopt -s nocasematch
-	if [[ $1 =~ ^(y|yes)$ ]]
-	then
-		mysqladmin drop $DB_NAME -f --user="$DB_USER" --password="$DB_PASS"$EXTRA
-		create_db
-		echo "Recreated the database ($DB_NAME)."
-	else
-		echo "Leaving the existing database ($DB_NAME) in place."
-	fi
-	shopt -u nocasematch
+	mysqladmin drop $DB_NAME -f --user="$DB_USER" --password="$DB_PASS"$EXTRA
+	create_db
+	echo "Recreated the database ($DB_NAME)."
 }
 
 create_db() {
@@ -169,8 +175,9 @@ install_db() {
 	if [ $(mysql --user="$DB_USER" --password="$DB_PASS"$EXTRA --execute='show databases;' | grep ^$DB_NAME$) ]
 	then
 		echo "Reinstalling will delete the existing test database ($DB_NAME)"
-		read -p 'Are you sure you want to proceed? [y/N]: ' DELETE_EXISTING_DB
-		recreate_db $DELETE_EXISTING_DB
+		## I want this to be non-interactive for docker. _vp_ 2022-06-20
+		# read -p 'Are you sure you want to proceed? [y/N]: ' DELETE_EXISTING_DB
+		recreate_db # $DELETE_EXISTING_DB
 	else
 		create_db
 	fi
