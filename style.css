@@ -8,7 +8,10 @@
 .CategoryWidget {
   min-height: 300px;
 }
-
+.CategoryWidget .header {
+  position: relative;
+  z-index:0;
+}
 .CategoryWidget .header h1 {
   /* border-bottom: 5px solid #888888; */
   border-right: 0.5em solid #ffff52;

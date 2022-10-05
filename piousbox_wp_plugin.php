@@ -155,7 +155,7 @@ function category_widget_shortcode( $raw_attrs ) {
   ), $raw_attrs );
   $cat = get_category_by_slug( $attrs['slug'] );
   $cat_link = get_category_link( $cat->term_id );
-  
+
   $title = '';
   if ($attrs['show_title'] == "yes") {
     $title = <<<EOT
@@ -205,7 +205,11 @@ EOT;
   }
 
   $cat_link = get_category_link( $cat->term_id );
-  $title = $attrs['show_title'] == "yes" ? "<h1 class='header'><a href='${cat_link}'><u>{$cat->name}</u></a></h1>" : "";
+
+  $title = "";
+  if ($attrs['show_title'] == "yes") {
+    $title = "<div class='header'><h1><div class='line-1'></div><a href='${cat_link}'>{$cat->name}</a></h1></div>";
+  }
 
   $out = <<<EOT
     <div class="CategoryWidget">{$title}{$postsRendered}</div>
