@@ -155,7 +155,7 @@ function category_widget_shortcode( $raw_attrs ) {
   ), $raw_attrs );
   $cat = get_category_by_slug( $attrs['slug'] );
   $cat_link = get_category_link( $cat->term_id );
-  
+
   $title = '';
   if ($attrs['show_title'] == "yes") {
     $title = <<<EOT
@@ -214,6 +214,87 @@ EOT;
   return $out;
 }
 add_shortcode( 'category_widget', 'category_widget_shortcode' );
+
+
+
+
+
+/**
+ * [showcase_widget category_slug='interviewing' n_posts=4 show_title='yes' ]
+ * 2022-05-09 _vp_
+**/
+function showcase_widget_shortcode( $raw_attrs ) {
+  $attrs = shortcode_atts( array(
+    'category_slug' => 'our-work',
+    'n_posts'       => 4,
+    'show_title'    => "yes"
+  ), $raw_attrs );
+  $cat = get_category_by_slug( $attrs['category_slug'] );
+  $cat_link = get_category_link( $cat->term_id );
+
+  $title = '';
+  if ($attrs['show_title'] == "yes") {
+    $title = <<<EOT
+      <div class='header'>
+        <h1>
+          <div class='line-1'></div>
+          <a href='${cat_link}'>{$cat->name}</a>
+        </h1>
+      </div>
+EOT;
+  }
+
+  $args = array(
+    # 'offset'           => $attrs['idx'],
+    # 'category'         => $cat->term_id, # and sub-cats
+    'category__in' => [ $cat->term_id ], # only the parent cat
+    'orderby'          => 'post_date',
+    'order'            => 'DESC',
+    'post_type'        => 'post',
+    'post_status'      => 'publish',
+    'suppress_filters' => true
+  );
+
+  if ($attrs['n_posts'] != '0') {
+    $args['numberposts'] = $attrs['n_posts'];
+  }
+
+  $recent_posts = wp_get_recent_posts( $args, ARRAY_A );
+
+  $postsRendered = '';
+  foreach ($recent_posts as &$post) {
+
+    // $author   = get_the_author_meta('display_name', $post->author);
+    // $date     = substr($post['post_date'], 0, 10);
+    // $meta = "<div class='meta' >By $author on {$date}</div>";
+
+    $subtitle = new WP_Subtitle( $post['ID'] );
+    $s = $subtitle->get_subtitle();
+    $feature_image = get_the_post_thumbnail( $post['ID'], 'large');
+
+    $tmp = <<<EOT
+    <div class='ItemW0' >
+      <h2><a href="/index.php?p={$post['ID']}">{$post['post_title']}</a></h2>
+      {$feature_image}
+      <div class="description"><a href="/index.php?p={$post['ID']}">$s</a></div>
+    </div>
+EOT;
+    $postsRendered = "$postsRendered$tmp";
+  }
+
+  $cat_link = get_category_link( $cat->term_id );
+  $title = $attrs['show_title'] == "yes" ? "<h1 class='header'><a href='${cat_link}'><u>{$cat->name}</u></a></h1>" : "";
+
+  $out = <<<EOT
+    <div class="ShowcaseWidget">{$title}<div class="W1">{$postsRendered}</div></div>
+EOT;
+
+  return $out;
+}
+add_shortcode( 'showcase_widget', 'showcase_widget_shortcode' );
+
+
+
 
 /*
  * [feature idx=0]

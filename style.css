@@ -3,7 +3,7 @@
 
 
 /**
- * category widget 
+ * category widget
  */
 .CategoryWidget {
   min-height: 300px;
@@ -12,7 +12,7 @@
 .CategoryWidget .header h1 {
   /* border-bottom: 5px solid #888888; */
   border-right: 0.5em solid #ffff52;
-  
+
   margin-bottom: 0.5em;
   padding-right: 0.5em;
   position: relative;
@@ -28,7 +28,7 @@
   -webkit-transform:
       /* translateY(-20px)
       translateX(5px) */
-      rotate(-37deg); 
+      rotate(-37deg);
   position: absolute;
   top: -25px;
   right: -25px;
@@ -122,4 +122,23 @@
 }
 .RecentPosts .item:last-child .divider{
   border: 0;
+}
+
+
+/* ShowcaseWidget */
+.ShowcaseWidget h1.header {
+  margin-bottom: 10px;
+}
+.ShowcaseWidget .W1 {
+  display: flex;
+  flex-wrap: wrap;
+}
+.ShowcaseWidget .W1 .ItemW0 {
+  width: 48%;
+  min-height: 200px;
+
+  border: 1px solid black;
+  border-radius: 10px;
+  padding: 20px;
+  margin: 0 10px 2em 0;
 }
