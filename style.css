@@ -129,16 +129,21 @@
 .ShowcaseWidget h1.header {
   margin-bottom: 10px;
 }
-.ShowcaseWidget .W1 {
+.ShowcaseWidget > .W1 {
+  /* border: 1px solid red; */
+
   display: flex;
   flex-wrap: wrap;
+
 }
 .ShowcaseWidget .W1 .ItemW0 {
-  width: 48%;
-  min-height: 200px;
+  flex: 50%;
 
+}
+.ShowcaseWidget .W1 .ItemW0 .W1 {
+  min-height: 200px;
   border: 1px solid black;
   border-radius: 10px;
   padding: 20px;
-  margin: 0 10px 2em 0;
+  margin: 10px;
 }

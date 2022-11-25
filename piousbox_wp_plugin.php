@@ -274,9 +274,11 @@ EOT;
 
     $tmp = <<<EOT
     <div class='ItemW0' >
-      <h2><a href="/index.php?p={$post['ID']}">{$post['post_title']}</a></h2>
-      {$feature_image}
-      <div class="description"><a href="/index.php?p={$post['ID']}">$s</a></div>
+      <div class='W1'>
+        <h2><a href="/index.php?p={$post['ID']}">{$post['post_title']}</a></h2>
+        {$feature_image}
+        <div class="description"><a href="/index.php?p={$post['ID']}">$s</a></div>
+      </div>
     </div>
 EOT;
     $postsRendered = "$postsRendered$tmp";
@@ -286,7 +288,12 @@ EOT;
   $title = $attrs['show_title'] == "yes" ? "<h1 class='header'><a href='${cat_link}'><u>{$cat->name}</u></a></h1>" : "";
 
   $out = <<<EOT
-    <div class="ShowcaseWidget">{$title}<div class="W1">{$postsRendered}</div></div>
+    <div class="ShowcaseWidget">
+      {$title}
+      <div class="W1">
+        {$postsRendered}
+      </div>
+    </div>
 EOT;
 
   return $out;
