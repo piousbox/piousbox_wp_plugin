@@ -1,24 +1,17 @@
 <?php
 /**
- * Plugin Name: Piousbox Wordpress Plugin
- */
+ * Plugin Name: Piousbox Wp Plugin
+ * Version: 0.0.0
+**/
 function my_scripts() {
   wp_register_style('myCSS', plugins_url('piousbox_wp_plugin/style.css'));
   wp_enqueue_style( 'myCSS');
 }
 add_action( 'wp_enqueue_scripts', 'my_scripts' );
 
-/*
- * [foobar]
- */
-function foobar_func( $atts = [] ){
-  return "foo and bar";
-}
-add_shortcode( 'foobar', 'foobar_func' );
-
 /**
  * [catlist parent="technique" parent_id=1||null ]
- */
+**/
 function catlist_func( $raw_attrs ) {
   $attrs = shortcode_atts( array(
     'parent' => 'technique',
@@ -62,7 +55,7 @@ add_shortcode( 'catlist', 'catlist_func' );
 /**
  * 20200217
  * [scrum_widget]
- */
+**/
 function category_expanded_widget_shortcode( $raw_attrs ) {
   $attrs = shortcode_atts( array(
     'slug'       => 'scrum',
@@ -339,7 +332,7 @@ add_shortcode( 'feature', 'feature_shortcode' );
 
 /**
  * Recent Posts
- */
+**/
 function recent_posts_shortcode( $raw_attrs ) {
   $attrs = shortcode_atts( array(
     'n_posts' => 5
@@ -387,7 +380,7 @@ add_shortcode( 'recent_posts', 'recent_posts_shortcode' );
 /**
  * CategoryVideo Widget
  * 20180707 _vp_
- */
+**/
 function category_video_widget_shortcode( $raw_attrs ) {
   $attrs = shortcode_atts( array(
     'slug'    => 'scrum-diary',
