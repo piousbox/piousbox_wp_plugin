@@ -1,13 +1,13 @@
 <?php
 /**
  * Plugin Name: Piousbox Wp Plugin
- * Version: 0.0.0
+ * Version: 1.1.0
 **/
-function my_scripts() {
-  wp_register_style('myCSS', plugins_url('piousbox_wp_plugin/style.css'));
-  wp_enqueue_style( 'myCSS');
+function pi_init() {
+  wp_register_style('pi_css', plugins_url('piousbox_wp_plugin/style.css'));
+  wp_enqueue_style( 'pi_css');
 }
-add_action( 'wp_enqueue_scripts', 'my_scripts' );
+add_action( 'wp_enqueue_scripts', 'pi_init' );
 
 /**
  * [catlist parent="technique" parent_id=1||null ]
