@@ -125,7 +125,9 @@
 }
 
 
-/* ShowcaseWidget */
+/*
+ * ShowcaseWidget
+**/
 .ShowcaseWidget h1.header {
   margin-bottom: 10px;
 }
@@ -156,6 +158,9 @@
   border-radius: 25px;
   -webkit-box-shadow: 12px 12px 24px #b2b8c9, -12px -12px 24px #f0f8ff;
   box-shadow: 12px 12px 24px #b2b8c9, -12px -12px 24px #f0f8ff; */
+}
+.ShowcaseWidget .W1 .ItemW0 .W1 h2 {
+  margin-top: 1em;
 }
 
 article.post-517 .ShowcaseWidget #post2889,
