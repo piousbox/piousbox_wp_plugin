@@ -1,24 +1,43 @@
 <?php
 /**
  * Plugin Name: Piousbox Wordpress Plugin
- */
+**/
 function my_scripts() {
-  wp_register_style('myCSS', plugins_url('piousbox_wp_plugin/style.css'));
-  wp_enqueue_style( 'myCSS');
+  wp_register_style('myLoginCss', '/wp-admin/css/login.min.css');
+  wp_enqueue_style( 'myLoginCss');
+
+  wp_register_style('myCss', plugins_url('piousbox_wp_plugin/style.css'));
+  wp_enqueue_style( 'myCss');
 }
 add_action( 'wp_enqueue_scripts', 'my_scripts' );
 
-/*
- * [foobar]
- */
-function foobar_func( $atts = [] ){
-  return "foo and bar";
+// add_action('login_form_register', function () { // debug
+//   var_dump( $_POST );
+//   exit();
+// });
+
+/* From: https://wordpress.stackexchange.com/questions/21765/redirect-to-custom-url-when-registration-fails */
+function binda_register_fail_redirect( $sanitized_user_login, $user_email, $errors ){
+  //this line is copied from register_new_user function of wp-login.php
+  $errors = apply_filters( 'registration_errors', $errors, $sanitized_user_login, $user_email );
+  //this if check is copied from register_new_user function of wp-login.php
+  if ( $errors->get_error_code() ){
+    //setup your custom URL for redirection
+    $redirect_url = get_bloginfo('url') . '/w/login';
+    //add error codes to custom redirection URL one by one
+    foreach ( $errors->errors as $e => $m ){
+        $redirect_url = add_query_arg( $e, '1', $redirect_url );
+    }
+    //add finally, redirect to your custom page with all errors in attributes
+    wp_redirect( $redirect_url );
+    exit;
+  }
 }
-add_shortcode( 'foobar', 'foobar_func' );
+add_action('register_post', 'binda_register_fail_redirect', 99, 3);
 
 /**
  * [catlist parent="technique" parent_id=1||null ]
- */
+**/
 function catlist_func( $raw_attrs ) {
   $attrs = shortcode_atts( array(
     'parent' => 'technique',
@@ -38,31 +57,104 @@ function catlist_func( $raw_attrs ) {
     'show_count'          => 1,
     'use_desc_for_title'  => 1,
   );
-  // $raw_cats = get_categories( $args );
   echo "<ul>";
   echo wp_list_categories( $args );
   echo "</ul>";
-
-  /*
-  // in-memory shuffling of the categories
-  $cats = array();
-  foreach($cats as &$cat) { }
-  var_dump( $cats );
-
-  $r_cats = ""; // r for render
-  foreach ($cats as &$cat) {
-    $r_cats = $r_cats . "<li>".$cat->name."</li>";
-  }
-  $rendered = "<ul>".$r_cats."</ul>";
-  return $rendered;
-   */
 }
 add_shortcode( 'catlist', 'catlist_func' );
 
 /**
+ *  myLogin
+ * _vp_ 2022-12-29
+ *
+**/
+function login_widget_shortcode( $raw_attrs ) {
+  $out =<<<EOT
+    <div class='myLogin login'>
+
+      <script src="https://www.google.com/recaptcha/api.js"></script>
+      <script>
+        function onSubmit(token) {
+          document.getElementById("registerform").submit();
+        }
+      </script>
+
+      <h2>Login</h2>
+      <form name="loginform" action="/wp-login.php" method="post">
+        <p>
+          <label for="user_login">Username or Email Address</label>
+          <input type="text" name="log" id="user_login" aria-describedby="login_error" class="input" value="" size="20" autocapitalize="off">
+        </p>
+
+        <div class="user-pass-wrap">
+          <label for="user_pass">Password</label>
+          <div class="wp-pwd">
+            <input type="password" name="pwd" id="user_pass" aria-describedby="login_error" class="input password-input" value="" size="20">
+            <button type="button" class="button button-secondary wp-hide-pw hide-if-no-js" data-toggle="0" aria-label="Show password">
+              <span class="dashicons dashicons-visibility" aria-hidden="true"></span>
+            </button>
+          </div>
+        </div>
+
+        <div class='flex-row'>
+          <div>
+            <p class="forgetmenot">
+              <input name="rememberme" type="checkbox" id="rememberme" value="forever">
+              <label for="rememberme">Remember Me</label>
+            </p>
+            <p>
+              <a href="/wp-login.php?action=lostpassword">Lost your password?</a>
+            </p>
+          </div>
+          <div>
+            <p class="submit">
+              <input type="submit" name="wp-submit" id="wp-submit" class="button button-primary button-large" value="Log In">
+              <input type="hidden" name="redirect_to" value="/wp-admin/">
+              <input type="hidden" name="testcookie" value="1">
+            </p>
+          </div>
+        </div>
+      </form>
+
+      <hr />
+      <h2>Register</h2>
+      <form name="registerform" id="registerform" action="/wp-login.php?action=register" method="post" novalidate="novalidate">
+        <p>
+          <label for="user_login">Username</label>
+          <input type="text" name="user_login" id="user_login" class="input" value="" size="20" autocapitalize="off">
+        </p>
+        <p>
+          <label for="user_email">Email</label>
+          <input type="email" name="user_email" id="user_email" class="input" value="" size="25">
+        </p>
+        <input type="hidden" name="redirect_to" value="/w/notice?checkemail=registered" >
+
+        <div class='flex-row'>
+          <p id="reg_passmail">Registration confirmation will be emailed to you.</p>
+          <p class="submit">
+            <input type="submit" name="wp-submit" id="wp-submit" class="button button-primary button-large g-recaptcha"
+              value="Register"
+              data-sitekey="6Lf5e7kjAAAAANBxV7SCqEl7eBZwy-ClQVZHxfY7"
+              data-callback='onSubmit'
+              data-action='submit'
+            ></input>
+          </p>
+        </div>
+      </form>
+
+      <p>
+
+      </p>
+    </div>
+  EOT;
+  return $out;
+}
+add_shortcode('login_widget', 'login_widget_shortcode' );
+
+/**
  * 20200217
  * [scrum_widget]
- */
+**/
 function category_expanded_widget_shortcode( $raw_attrs ) {
   $attrs = shortcode_atts( array(
     'slug'       => 'scrum',
@@ -100,15 +192,15 @@ function category_expanded_widget_shortcode( $raw_attrs ) {
       $pattern = '/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/ ]{11})/i';
       preg_match($pattern, $video, $matches);
       $content = <<<EOT
-      <iframe width="420" height="315" src="https://www.youtube.com/embed/{$matches[1]}"></iframe>
-EOT;
+        <iframe width="420" height="315" src="https://www.youtube.com/embed/{$matches[1]}"></iframe>
+      EOT;
     }
 
     $title =<<<EOT
-    <div>
-      <h2><a href="/index.php?p={$post['ID']}">{$post['post_title']}</a></h2>
-    </div>
-EOT;
+      <div>
+        <h2><a href="/index.php?p={$post['ID']}">{$post['post_title']}</a></h2>
+      </div>
+    EOT;
     $title = $attrs['show_title'] == "yes" ? $title : '';
 
     $meta = "<div class='meta' >By $author on {$date}</div>";
@@ -117,13 +209,13 @@ EOT;
     // _vp_ 2022-05-05 $meta would have been displayed just below the title.
 
     $tmp = <<<EOT
-    <div>
-      $title
-      <div class="description">
-        $content
+      <div>
+        $title
+        <div class="description">
+          $content
+        </div>
       </div>
-    </div>
-EOT;
+    EOT;
     $postsRendered = "$postsRendered$tmp<br /><br />";
   }
 
@@ -136,7 +228,7 @@ EOT;
         $postsRendered
         $readMore
     </div>
-EOT;
+  EOT;
   return $out;
 }
 add_shortcode('scrum_widget', 'category_expanded_widget_shortcode' );
@@ -165,7 +257,7 @@ function category_widget_shortcode( $raw_attrs ) {
           <a href='${cat_link}'>{$cat->name}</a>
         </h1>
       </div>
-EOT;
+    EOT;
   }
 
   $args = array(
@@ -196,11 +288,11 @@ EOT;
     $s = $subtitle->get_subtitle();
 
     $tmp = <<<EOT
-    <div class='item-outer' >
-      <h2><a href="/index.php?p={$post['ID']}">{$post['post_title']}</a></h2>
-      <div class="description"><a href="/index.php?p={$post['ID']}">$s</a></div>
-    </div>
-EOT;
+      <div class='item-outer' >
+        <h2><a href="/index.php?p={$post['ID']}">{$post['post_title']}</a></h2>
+        <div class="description"><a href="/index.php?p={$post['ID']}">$s</a></div>
+      </div>
+    EOT;
     $postsRendered = "$postsRendered$tmp";
   }
 
@@ -213,7 +305,7 @@ EOT;
 
   $out = <<<EOT
     <div class="CategoryWidget">{$title}{$postsRendered}</div>
-EOT;
+  EOT;
 
   return $out;
 }
@@ -221,7 +313,7 @@ add_shortcode( 'category_widget', 'category_widget_shortcode' );
 
 /*
  * [feature idx=0]
- */
+**/
 function feature_shortcode( $raw_attrs ) {
   $attrs = shortcode_atts( array(
     'idx' => 0
@@ -244,18 +336,18 @@ function feature_shortcode( $raw_attrs ) {
   $subtitle = new WP_Subtitle( $post['ID'] );
   $s = $subtitle->get_subtitle();
   $out = <<<EOT
-<div>
-  <h1><a href="/index.php?p={$post['ID']}">{$post['post_title']}</a></h1>
-  <div class="description"><a href="/index.php?p={$post['ID']}">$s</a></div>
-</div>
-EOT;
+    <div>
+      <h1><a href="/index.php?p={$post['ID']}">{$post['post_title']}</a></h1>
+      <div class="description"><a href="/index.php?p={$post['ID']}">$s</a></div>
+    </div>
+  EOT;
   return $out;
 }
 add_shortcode( 'feature', 'feature_shortcode' );
 
 /**
  * Recent Posts
- */
+**/
 function recent_posts_shortcode( $raw_attrs ) {
   $attrs = shortcode_atts( array(
     'n_posts' => 5
@@ -279,13 +371,13 @@ function recent_posts_shortcode( $raw_attrs ) {
     $s = $subtitle->get_subtitle();
     $date = substr($post['post_date'], 0, 10);
     $tmp = <<<EOT
-    <div class="item" >
-      <h2><a href="/index.php?p={$post['ID']}">{$post['post_title']}</a></h2>
-      <div class="meta" >By $author on {$date}</div>
-      <div class="description"><a href="/index.php?p={$post['ID']}">$s</a></div>
-      <div class="divider"></div>
-    </div>
-EOT;
+      <div class="item" >
+        <h2><a href="/index.php?p={$post['ID']}">{$post['post_title']}</a></h2>
+        <div class="meta" >By $author on {$date}</div>
+        <div class="description"><a href="/index.php?p={$post['ID']}">$s</a></div>
+        <div class="divider"></div>
+      </div>
+    EOT;
     $postsRendered = "$postsRendered$tmp";
   }
 
@@ -294,7 +386,7 @@ EOT;
       <div class="header" >Recent Posts</div>
       {$postsRendered}
     </div>
-EOT;
+  EOT;
 
   return $out;
 }
@@ -303,7 +395,7 @@ add_shortcode( 'recent_posts', 'recent_posts_shortcode' );
 /**
  * CategoryVideo Widget
  * 20180707 _vp_
- */
+**/
 function category_video_widget_shortcode( $raw_attrs ) {
   $attrs = shortcode_atts( array(
     'slug'    => 'scrum-diary',
@@ -338,21 +430,21 @@ function category_video_widget_shortcode( $raw_attrs ) {
     $content = "<div class='thumb'><img src='https://img.youtube.com/vi/{$matches[1]}/0.jpg' alt='' /></div>";
 
     $tmp = <<<EOT
-    <div>
-      <h2><a href="/index.php?p={$post['ID']}">{$post['post_title']}</a></h2>
-      <div class="meta" >By $author on {$date}</div>
-      <div class="description">
-        <a href="/index.php?p={$post['ID']}">$content</a><br />
+      <div>
+        <h2><a href="/index.php?p={$post['ID']}">{$post['post_title']}</a></h2>
+        <div class="meta" >By $author on {$date}</div>
+        <div class="description">
+          <a href="/index.php?p={$post['ID']}">$content</a><br />
 
-        <ul class="actions">
-          <li>
-            <a href="/index.php?p={$post['ID']}">Play Video</a>
-          </li>
-        </ul>
+          <ul class="actions">
+            <li>
+              <a href="/index.php?p={$post['ID']}">Play Video</a>
+            </li>
+          </ul>
 
+        </div>
       </div>
-    </div>
-EOT;
+    EOT;
     $postsRendered = "$postsRendered$tmp<br /><br />";
   }
 
@@ -361,7 +453,7 @@ EOT;
       <h1 class="header">{$cat->name}</h1>
       {$postsRendered}
     </div>
-EOT;
+  EOT;
 
   return $out;
 }
@@ -371,7 +463,7 @@ add_shortcode( 'category_video_widget', 'category_video_widget_shortcode' );
 /**
  * CategoryFull Widget
  * 20180707 _vp_
- */
+**/
 function category_full_widget_shortcode( $raw_attrs ) {
   $attrs = shortcode_atts( array(
     'slug'    => 'diary',
@@ -400,14 +492,14 @@ function category_full_widget_shortcode( $raw_attrs ) {
     $content  = $post['post_content'];
 
     $tmp = <<<EOT
-    <div>
-      <h2><a href="/index.php?p={$post['ID']}">{$post['post_title']}</a></h2>
-      <div class="meta" >By $author on {$date}</div>
-      <div class="description">
-        <a href="/index.php?p={$post['ID']}">$content</a><br />
+      <div>
+        <h2><a href="/index.php?p={$post['ID']}">{$post['post_title']}</a></h2>
+        <div class="meta" >By $author on {$date}</div>
+        <div class="description">
+          <a href="/index.php?p={$post['ID']}">$content</a><br />
+        </div>
       </div>
-    </div>
-EOT;
+    EOT;
     $postsRendered = "$postsRendered$tmp<br /><br />";
   }
 
@@ -416,7 +508,7 @@ EOT;
       <h1 class="header">{$cat->name}</h1>
       {$postsRendered}
     </div>
-EOT;
+  EOT;
 
   return $out;
 }

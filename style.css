@@ -128,3 +128,31 @@
 .RecentPosts .item:last-child .divider{
   border: 0;
 }
+
+/* myLogin */
+.myLogin .button.wp-hide-pw {
+  display: none;
+}
+.myLogin h2 {
+  text-align: center;
+}
+.myLogin form {
+  border: 0px solid black;
+}
+.myLogin form .forgetmenot {
+  float: none;
+  /* margin-bottom: 0.6em; */
+}
+.myLogin .flex-row {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+.myLogin p.submit {
+  margin: 0;
+}
+.elementor .myLogin hr {
+  border: 1px solid red;
+  margin-bottom: 2em;
+}
+
