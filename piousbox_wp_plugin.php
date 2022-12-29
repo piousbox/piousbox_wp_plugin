@@ -17,23 +17,23 @@ add_action( 'wp_enqueue_scripts', 'my_scripts' );
 // });
 
 /* From: https://wordpress.stackexchange.com/questions/21765/redirect-to-custom-url-when-registration-fails */
-function binda_register_fail_redirect( $sanitized_user_login, $user_email, $errors ){
-  //this line is copied from register_new_user function of wp-login.php
-  $errors = apply_filters( 'registration_errors', $errors, $sanitized_user_login, $user_email );
-  //this if check is copied from register_new_user function of wp-login.php
-  if ( $errors->get_error_code() ){
-    //setup your custom URL for redirection
-    $redirect_url = get_bloginfo('url') . '/w/login';
-    //add error codes to custom redirection URL one by one
-    foreach ( $errors->errors as $e => $m ){
-        $redirect_url = add_query_arg( $e, '1', $redirect_url );
-    }
-    //add finally, redirect to your custom page with all errors in attributes
-    wp_redirect( $redirect_url );
-    exit;
-  }
-}
-add_action('register_post', 'binda_register_fail_redirect', 99, 3);
+// function binda_register_fail_redirect( $sanitized_user_login, $user_email, $errors ){
+//   //this line is copied from register_new_user function of wp-login.php
+//   $errors = apply_filters( 'registration_errors', $errors, $sanitized_user_login, $user_email );
+//   //this if check is copied from register_new_user function of wp-login.php
+//   if ( $errors->get_error_code() ){
+//     //setup your custom URL for redirection
+//     $redirect_url = get_bloginfo('url') . '/w/login';
+//     //add error codes to custom redirection URL one by one
+//     foreach ( $errors->errors as $e => $m ){
+//         $redirect_url = add_query_arg( $e, '1', $redirect_url );
+//     }
+//     //add finally, redirect to your custom page with all errors in attributes
+//     wp_redirect( $redirect_url );
+//     exit;
+//   }
+// }
+// add_action('register_post', 'binda_register_fail_redirect', 99, 3);
 
 /**
  * [catlist parent="technique" parent_id=1||null ]
