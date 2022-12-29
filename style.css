@@ -158,12 +158,14 @@
   box-shadow: 12px 12px 24px #b2b8c9, -12px -12px 24px #f0f8ff; */
 }
 
-article.post-517 .ShowcaseWidget #post2889 {
+article.post-517 .ShowcaseWidget #post2889,
+article.post-517 .ShowcaseWidget #post3165 {
   border: 0px;
   display: flex;
   flex-direction: column-reverse;
 }
-article.post-517 .ShowcaseWidget #post2889 h2 {
+article.post-517 .ShowcaseWidget #post2889 h2,
+article.post-517 .ShowcaseWidget #post3165 h2 {
   text-align: center;
 }
 
