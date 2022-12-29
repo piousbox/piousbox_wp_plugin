@@ -68,7 +68,7 @@ add_shortcode( 'catlist', 'catlist_func' );
  * _vp_ 2022-12-29
  *
 **/
-function login_widget_shortcode( $raw_attrs ) {
+function login_widget_shortcode() {
   $out =<<<EOT
     <div class='myLogin login'>
 
@@ -146,7 +146,7 @@ function login_widget_shortcode( $raw_attrs ) {
 
       </p>
     </div>
-  EOT;
+EOT;
   return $out;
 }
 add_shortcode('login_widget', 'login_widget_shortcode' );
@@ -193,14 +193,14 @@ function category_expanded_widget_shortcode( $raw_attrs ) {
       preg_match($pattern, $video, $matches);
       $content = <<<EOT
         <iframe width="420" height="315" src="https://www.youtube.com/embed/{$matches[1]}"></iframe>
-      EOT;
+EOT;
     }
 
     $title =<<<EOT
       <div>
         <h2><a href="/index.php?p={$post['ID']}">{$post['post_title']}</a></h2>
       </div>
-    EOT;
+EOT;
     $title = $attrs['show_title'] == "yes" ? $title : '';
 
     $meta = "<div class='meta' >By $author on {$date}</div>";
@@ -215,7 +215,7 @@ function category_expanded_widget_shortcode( $raw_attrs ) {
           $content
         </div>
       </div>
-    EOT;
+EOT;
     $postsRendered = "$postsRendered$tmp<br /><br />";
   }
 
@@ -228,7 +228,7 @@ function category_expanded_widget_shortcode( $raw_attrs ) {
         $postsRendered
         $readMore
     </div>
-  EOT;
+EOT;
   return $out;
 }
 add_shortcode('scrum_widget', 'category_expanded_widget_shortcode' );
@@ -257,7 +257,7 @@ function category_widget_shortcode( $raw_attrs ) {
           <a href='${cat_link}'>{$cat->name}</a>
         </h1>
       </div>
-    EOT;
+EOT;
   }
 
   $args = array(
@@ -292,7 +292,7 @@ function category_widget_shortcode( $raw_attrs ) {
         <h2><a href="/index.php?p={$post['ID']}">{$post['post_title']}</a></h2>
         <div class="description"><a href="/index.php?p={$post['ID']}">$s</a></div>
       </div>
-    EOT;
+EOT;
     $postsRendered = "$postsRendered$tmp";
   }
 
@@ -305,7 +305,7 @@ function category_widget_shortcode( $raw_attrs ) {
 
   $out = <<<EOT
     <div class="CategoryWidget">{$title}{$postsRendered}</div>
-  EOT;
+EOT;
 
   return $out;
 }
@@ -340,7 +340,7 @@ function feature_shortcode( $raw_attrs ) {
       <h1><a href="/index.php?p={$post['ID']}">{$post['post_title']}</a></h1>
       <div class="description"><a href="/index.php?p={$post['ID']}">$s</a></div>
     </div>
-  EOT;
+EOT;
   return $out;
 }
 add_shortcode( 'feature', 'feature_shortcode' );
@@ -377,7 +377,7 @@ function recent_posts_shortcode( $raw_attrs ) {
         <div class="description"><a href="/index.php?p={$post['ID']}">$s</a></div>
         <div class="divider"></div>
       </div>
-    EOT;
+EOT;
     $postsRendered = "$postsRendered$tmp";
   }
 
@@ -386,7 +386,7 @@ function recent_posts_shortcode( $raw_attrs ) {
       <div class="header" >Recent Posts</div>
       {$postsRendered}
     </div>
-  EOT;
+EOT;
 
   return $out;
 }
@@ -444,7 +444,7 @@ function category_video_widget_shortcode( $raw_attrs ) {
 
         </div>
       </div>
-    EOT;
+EOT;
     $postsRendered = "$postsRendered$tmp<br /><br />";
   }
 
@@ -453,7 +453,7 @@ function category_video_widget_shortcode( $raw_attrs ) {
       <h1 class="header">{$cat->name}</h1>
       {$postsRendered}
     </div>
-  EOT;
+EOT;
 
   return $out;
 }
@@ -499,7 +499,7 @@ function category_full_widget_shortcode( $raw_attrs ) {
           <a href="/index.php?p={$post['ID']}">$content</a><br />
         </div>
       </div>
-    EOT;
+EOT;
     $postsRendered = "$postsRendered$tmp<br /><br />";
   }
 
@@ -508,7 +508,7 @@ function category_full_widget_shortcode( $raw_attrs ) {
       <h1 class="header">{$cat->name}</h1>
       {$postsRendered}
     </div>
-  EOT;
+EOT;
 
   return $out;
 }
