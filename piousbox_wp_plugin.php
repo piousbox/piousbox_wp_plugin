@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Piousbox Wp Plugin
- * Version: 1.1.0
+ * Version: 1.2.0
 **/
 function pi_init() {
   wp_register_style('pi_css', plugins_url('piousbox_wp_plugin/style.css'));
@@ -263,11 +263,14 @@ EOT;
 
     $subtitle = new WP_Subtitle( $post['ID'] );
     $s = $subtitle->get_subtitle();
-    $feature_image = get_the_post_thumbnail( $post['ID'], 'large');
+    $thumb_url = get_the_post_thumbnail_url( $post['ID'] );
+    $feature_image = "<div class='feature-img-wrapper'><img src='$thumb_url' alt='' /></div>";
+    $post_name = $post['post_name'];
+    $post_id = $post['ID'];
 
     $tmp = <<<EOT
     <div class='ItemW0' >
-      <div class='W1'>
+      <div class='W1 post-$post_name post-$post_id' id="post$post_id" >
         <h2><a href="/index.php?p={$post['ID']}">{$post['post_title']}</a></h2>
         {$feature_image}
         <div class="description"><a href="/index.php?p={$post['ID']}">$s</a></div>
@@ -276,6 +279,7 @@ EOT;
 EOT;
     $postsRendered = "$postsRendered$tmp";
   }
+  $postsRendered = "$postsRendered<div class='ItemW0'></div>";
 
   $cat_link = get_category_link( $cat->term_id );
   $title = $attrs['show_title'] == "yes" ? "<h1 class='header'><a href='${cat_link}'><u>{$cat->name}</u></a></h1>" : "";

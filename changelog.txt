@@ -12,3 +12,5 @@
         20210907 - category h1 has a link
 0.3.0 - 2022-05-09 - yellow boxes, floating islands
 1.1.0 - 2022-11-24 - ShowcaseWidget
+1.1.2 - 2022-12-27 - https://hype4.academy/tools/neumorphism-generator for showcase_widget
+                     different cards in our-work
