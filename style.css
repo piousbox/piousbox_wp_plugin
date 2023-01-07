@@ -104,6 +104,9 @@
 .CategoryPreviewsWidget .item-outer {
   margin-top: 1.6em;
 }
+.CategoryPreviewsWidget img {
+  max-width: 400px;
+}
 /*
  * Category Video Widget
 **/
