@@ -1,4 +1,22 @@
 
+.i20221116-header {
+  text-align: right;
+  h2 {
+    color: grb(84, 89, 95);
+    font-family: Roboto, sans-serif;
+    font-weight: 600;
+    padding: 0;
+    margin: 0;
+    font-size: 1.625 rem;
+    line-height: 1;
+  }
+  span {
+    font-size: 0.8em;
+  }
+  a {
+    text-decoration: underline;
+  }
+}
 
 /*
  * category widget,

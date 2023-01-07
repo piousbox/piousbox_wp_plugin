@@ -400,7 +400,19 @@ EOT;
 add_shortcode( 'category_toc_widget', 'category_toc_widget_shortcode' );
 
 
+function issue_navigator_widget_shortcode() {
+  $out = <<<EOT
+  <div class="i20221116-header" >
+    <span>Past issues:
+      <a href='/202211-issue'>Nov'22</a> <a href='/nov22-print-issue'>(P)</a> |
+      <a href='/2022-issue'>Dec'22</a> <a href='/issue-dec22-print'>(P)</a>
+    </span>
+  </div>
+EOT;
 
+  return $out;
+}
+add_shortcode( 'issue_navigator_widget', 'issue_navigator_widget_shortcode' );
 
 
 
