@@ -319,6 +319,7 @@ add_shortcode( 'category_widget', 'category_widget_shortcode' );
 
 
 /**
+ * TOC
  * [category_toc_widget slug='interviewing']
  * Only titles of ALL posts in the category.
  * 2023-01-06 _vp_
@@ -370,7 +371,7 @@ EOT;
       $date     = substr($post['post_date'], 0, 10);
       $meta = "<div class='meta' >By $author on {$date}</div>";
       $tmp = <<<EOT
-        <li class='item-outer' ><h5><a href="/index.php?p={$post['ID']}">{$post['post_title']}</a></h5>{$meta}</li>
+        <li class='item-outer' ><h5><a href="#{$post['post_name']}">{$post['post_title']}</a></h5>{$meta}</li>
 EOT;
       $postsRendered = "$postsRendered$tmp";
     }
@@ -465,7 +466,7 @@ EOT;
       }
 
       $tmp = <<<EOT
-        <li class='item-outer' >
+        <li class='item-outer' id='{$post['post_name']}' >
           <h5><a href="/index.php?p={$post['ID']}">{$post['post_title']}</a></h5>
           {$meta}
           {$content_parts['main']}
