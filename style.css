@@ -101,10 +101,10 @@
   margin-bottom: 2em;
   color: gray;
 }
-.CategoryPreviewsWidget .item-outer {
+.elementor .CategoryPreviewsWidget .item-outer, .CategoryPreviewsWidget .item-outer {
   margin-top: 1.6em;
 }
-.CategoryPreviewsWidget img {
+.elementor .CategoryPreviewsWidget img, .CategoryPreviewsWidget img {
   max-width: 400px;
 }
 /*
