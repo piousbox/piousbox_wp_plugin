@@ -1,7 +1,22 @@
 
-.i20221116-header {
+.issue-name {
   text-align: right;
   h2 {
+    color: grb(84, 89, 95);
+    font-family: Roboto, sans-serif;
+    font-weight: 600;
+    padding: 0;
+    margin: 0;
+    font-size: 1.625 rem;
+    line-height: 1;
+  }
+}
+.i20221116-header, /* obsolete */
+.issue-navigator {
+  text-align: right;
+  margin-top: -1.4em;
+
+  h2 { /* obsolete */
     color: grb(84, 89, 95);
     font-family: Roboto, sans-serif;
     font-weight: 600;

@@ -3,10 +3,10 @@
  * Plugin Name: Piousbox Wordpress Plugin
 **/
 function my_scripts() {
-  wp_register_style('myLoginCss', '/wp-admin/css/login.min.css?v=1.3.0');
+  wp_register_style('myLoginCss', '/wp-admin/css/login.min.css?v=1.3.1');
   wp_enqueue_style( 'myLoginCss');
 
-  wp_register_style('myCss', plugins_url('piousbox_wp_plugin/style.css?v=1.3.0'));
+  wp_register_style('myCss', plugins_url('piousbox_wp_plugin/style.css?v=1.3.1'));
   wp_enqueue_style( 'myCss');
 }
 add_action( 'wp_enqueue_scripts', 'my_scripts' );
@@ -403,9 +403,13 @@ add_shortcode( 'category_toc_widget', 'category_toc_widget_shortcode' );
 function issue_navigator_widget_shortcode() {
   $out = <<<EOT
   <div class="i20221116-header" >
-    <span>Past issues:
+    <span>
+      <a href='/'>Home</a> |
+      Past issues:
+
       <a href='/202211-issue'>Nov'22</a> <a href='/nov22-print-issue'>(P)</a> |
-      <a href='/2022-issue'>Dec'22</a> <a href='/issue-dec22-print'>(P)</a>
+      <a href='/2022-issue'>Dec'22</a> <a href='/issue-dec22-print'>(P)</a> |
+      <a href='/202301-issue'>Jan'23</a> <a href='/202301-issue-print'>(P)</a>
     </span>
   </div>
 EOT;
