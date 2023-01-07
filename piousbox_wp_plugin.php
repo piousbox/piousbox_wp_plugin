@@ -400,6 +400,105 @@ add_shortcode( 'category_toc_widget', 'category_toc_widget_shortcode' );
 
 
 
+
+
+
+/**
+ * [category_previews_widget slug='interviewing']
+ * Whatever's before <more> is displayed. This is for print pages, detail.
+ * 2023-01-06 _vp_
+**/
+function category_previews_widget_shortcode( $raw_attrs ) {
+  $attrs = shortcode_atts( array(
+    'slug'       => 'tools',
+    'n_posts'    => 'ALL',
+    'show_title' => "yes"
+  ), $raw_attrs );
+  $cat = get_category_by_slug( $attrs['slug'] );
+  $cat_link = get_category_link( $cat->term_id );
+
+  $title = '';
+  if ($attrs['show_title'] == "yes") {
+    $title = <<<EOT
+      <div class='header'>
+        <h1>
+          <div class='line-1'></div>
+          <a href='${cat_link}'>{$cat->name}</a>
+        </h1>
+      </div>
+EOT;
+  }
+
+  $args = array(
+    # 'offset'           => $attrs['idx'],
+    # 'category'         => $cat->term_id, # and sub-cats
+    'category__in' => [ $cat->term_id ], # only the parent cat
+    'orderby'          => 'post_date',
+    'order'            => 'DESC',
+    'post_type'        => 'post',
+    'post_status'      => 'publish',
+    'suppress_filters' => true,
+    'posts_per_page' => -1, // From: https://stackoverflow.com/questions/21231683/wordpress-not-showing-more-than-10-posts
+  );
+
+  if ($attrs['n_posts'] != 'ALL') {
+    $args['numberposts'] = $attrs['n_posts'];
+  }
+
+  $postsRendered = '';
+  if ($attrs['n_posts'] == '0') {
+    $postsRendered = "<a href='${cat_link}'>Click to see all</a>";
+  } else {
+    $recent_posts = wp_get_recent_posts( $args, ARRAY_A );
+    foreach ($recent_posts as &$post) {
+      $author   = get_the_author_meta('display_name', $post->author);
+      $date     = substr($post['post_date'], 0, 10);
+      $meta = "<div class='meta' >By $author on {$date}</div>";
+      $content = get_post_field( 'post_content', $post['ID'] );
+      $content_parts = get_extended( $content ); // From: https://wordpress.stackexchange.com/questions/149099/only-show-content-before-more-tag
+      $this_length = strlen($content_parts['extended']);
+
+      if ($this_length > 3) {
+        $read_more = "<a href=/index.php?p={$post['ID']} >Read More &gt;&gt;&gt;</a>";
+      } else {
+        $read_more = 'FIN';
+      }
+
+      $tmp = <<<EOT
+        <li class='item-outer' >
+          <h5><a href="/index.php?p={$post['ID']}">{$post['post_title']}</a></h5>
+          {$meta}
+          {$content_parts['main']}
+          {$read_more}
+        </li>
+EOT;
+      $postsRendered = "$postsRendered$tmp";
+    }
+  }
+
+  $cat_link = get_category_link( $cat->term_id );
+
+  $title = "";
+  if ($attrs['show_title'] == "yes") {
+    $title = <<<EOT
+      <div class='header'>
+        <h1><div class='line-1'></div>
+          <a href='${cat_link}'>{$cat->name} ({$cat->category_count}) </a>
+        </h1>
+      </div>
+EOT;
+  }
+
+  $out = <<<EOT
+    <div class="CategoryPreviewsWidget">{$title}<ol>{$postsRendered}</ol></div>
+EOT;
+
+  return $out;
+}
+add_shortcode( 'category_previews_widget', 'category_previews_widget_shortcode' );
+
+
+
 /*
  * [feature idx=0]
 **/
