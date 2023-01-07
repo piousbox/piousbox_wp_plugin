@@ -3,10 +3,10 @@
  * Plugin Name: Piousbox Wordpress Plugin
 **/
 function my_scripts() {
-  wp_register_style('myLoginCss', '/wp-admin/css/login.min.css');
+  wp_register_style('myLoginCss', '/wp-admin/css/login.min.css?v=1.3.0');
   wp_enqueue_style( 'myLoginCss');
 
-  wp_register_style('myCss', plugins_url('piousbox_wp_plugin/style.css'));
+  wp_register_style('myCss', plugins_url('piousbox_wp_plugin/style.css?v=1.3.0'));
   wp_enqueue_style( 'myCss');
 }
 add_action( 'wp_enqueue_scripts', 'my_scripts' );
@@ -352,7 +352,8 @@ EOT;
     'order'            => 'DESC',
     'post_type'        => 'post',
     'post_status'      => 'publish',
-    'suppress_filters' => true
+    'suppress_filters' => true,
+    'posts_per_page' => -1, // From: https://stackoverflow.com/questions/21231683/wordpress-not-showing-more-than-10-posts
   );
 
   if ($attrs['n_posts'] != 'ALL') {
