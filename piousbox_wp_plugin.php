@@ -236,7 +236,9 @@ add_shortcode('scrum_widget', 'category_expanded_widget_shortcode' );
 
 
 /**
- * [category_widget slug='interviewing']
+ * [category_widget slug='interviewing' n_posts=2 ]
+ * Has subtitle, usually a pic.
+ * Probably has body before "more" tag.
  * 2022-05-09 _vp_
 **/
 function category_widget_shortcode( $raw_attrs ) {
@@ -311,6 +313,92 @@ EOT;
 }
 add_shortcode( 'category_widget', 'category_widget_shortcode' );
 
+
+
+
+
+
+/**
+ * [category_toc_widget slug='interviewing']
+ * Only titles of ALL posts in the category.
+ * 2023-01-06 _vp_
+**/
+function category_toc_widget_shortcode( $raw_attrs ) {
+  $attrs = shortcode_atts( array(
+    'slug'       => 'tools',
+    'n_posts'    => 'ALL',
+    'show_title' => "yes"
+  ), $raw_attrs );
+  $cat = get_category_by_slug( $attrs['slug'] );
+  $cat_link = get_category_link( $cat->term_id );
+
+  $title = '';
+  if ($attrs['show_title'] == "yes") {
+    $title = <<<EOT
+      <div class='header'>
+        <h1>
+          <div class='line-1'></div>
+          <a href='${cat_link}'>{$cat->name}</a>
+        </h1>
+      </div>
+EOT;
+  }
+
+  $args = array(
+    # 'offset'           => $attrs['idx'],
+    # 'category'         => $cat->term_id, # and sub-cats
+    'category__in' => [ $cat->term_id ], # only the parent cat
+    'orderby'          => 'post_date',
+    'order'            => 'DESC',
+    'post_type'        => 'post',
+    'post_status'      => 'publish',
+    'suppress_filters' => true
+  );
+
+  if ($attrs['n_posts'] != 'ALL') {
+    $args['numberposts'] = $attrs['n_posts'];
+  }
+
+  $postsRendered = '';
+  if ($attrs['n_posts'] == '0') {
+    $postsRendered = "<a href='${cat_link}'>Click to see all</a>";
+  } else {
+    $recent_posts = wp_get_recent_posts( $args, ARRAY_A );
+    foreach ($recent_posts as &$post) {
+      $author   = get_the_author_meta('display_name', $post->author);
+      $date     = substr($post['post_date'], 0, 10);
+      $meta = "<div class='meta' >By $author on {$date}</div>";
+      $tmp = <<<EOT
+        <li class='item-outer' ><h5><a href="/index.php?p={$post['ID']}">{$post['post_title']}</a></h5>{$meta}</li>
+EOT;
+      $postsRendered = "$postsRendered$tmp";
+    }
+  }
+
+  $cat_link = get_category_link( $cat->term_id );
+
+  $title = "";
+  if ($attrs['show_title'] == "yes") {
+    $title = <<<EOT
+      <div class='header'>
+        <h1><div class='line-1'></div>
+          <a href='${cat_link}'>{$cat->name} ({$cat->category_count}) </a>
+
+        </h1>
+      </div>
+EOT;
+  }
+
+  $out = <<<EOT
+    <div class="CategoryTocWidget">{$title}<ol>{$postsRendered}</ol></div>
+EOT;
+
+  return $out;
+}
+add_shortcode( 'category_toc_widget', 'category_toc_widget_shortcode' );
+
+
+
 /*
  * [feature idx=0]
 **/
@@ -347,6 +435,8 @@ add_shortcode( 'feature', 'feature_shortcode' );
 
 /**
  * Recent Posts
+ * Also has subtitle.
+ * _vp_ 2022-10-xx
 **/
 function recent_posts_shortcode( $raw_attrs ) {
   $attrs = shortcode_atts( array(
