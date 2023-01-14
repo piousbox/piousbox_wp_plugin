@@ -220,3 +220,31 @@
   margin-bottom: 2em;
 }
 
+.ButtonCart20230114 {
+  font-size: 1rem;
+  display: inline-block;
+
+  .W0-20230114 {
+    // border: 1px solid red;
+
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+
+    border-radius: 10px;
+    padding: 0.66em 1em;
+
+    display: flex;
+    align-items: center;
+
+    height: 3em;
+
+    .ico_ {
+      margin-right: 10px;
+      height: 2em;
+      width: 2em;
+      background: no-repeat  center center;
+      background-size: contain;
+      background-image: url('https://d15g8hc4183yn4.cloudfront.net/wp-content/uploads/2023/01/14172010/100x100-shopping-cart-tiny.png');
+    }
+  }
+
+}

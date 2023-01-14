@@ -3,10 +3,10 @@
  * Plugin Name: Piousbox Wordpress Plugin
 **/
 function my_scripts() {
-  wp_register_style('myLoginCss', '/wp-admin/css/login.min.css?v=1.3.1');
+  wp_register_style('myLoginCss', '/wp-admin/css/login.min.css?v=1.3.2');
   wp_enqueue_style( 'myLoginCss');
 
-  wp_register_style('myCss', plugins_url('piousbox_wp_plugin/style.css?v=1.3.1'));
+  wp_register_style('myCss', plugins_url('piousbox_wp_plugin/style.css?v=1.3.2'));
   wp_enqueue_style( 'myCss');
 }
 add_action( 'wp_enqueue_scripts', 'my_scripts' );
@@ -549,6 +549,35 @@ EOT;
   return $out;
 }
 add_shortcode( 'feature', 'feature_shortcode' );
+
+
+
+/*
+ * 2023-01-14
+**/
+function button_opensea_shortcode( $raw_attrs ) {
+  $attrs = shortcode_atts( array(
+    'name' => 'Replace Name',
+    'link' => 'Replace Link'
+  ), $raw_attrs );
+  $label = $attrs['name'] . ' - Available on OpenSea';
+  ?>
+<div class='ButtonCart ButtonCart20230114' >
+<a href="<?= $attrs['link']; ?>" >
+  <div class='W0-20230114' >
+    <div class='ico_' >
+      <!-- <img src="" alt='shopping cart' /> -->
+    </div>
+    <div class='descr' >
+      <?= $label; ?>
+    </div>
+  </div>
+  </a>
+</div>
+  <?
+}
+add_shortcode( 'button_opensea', 'button_opensea_shortcode' );
+
 
 /**
  * Recent Posts
